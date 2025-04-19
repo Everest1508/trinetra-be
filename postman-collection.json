@@ -1,0 +1,473 @@
+{
+    "info": {
+      "name": "E-commerce API",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Authentication",
+        "item": [
+          {
+            "name": "Register User",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"testuser\",\n    \"email\": \"test@example.com\",\n    \"password\": \"testpass123\",\n    \"profile\": {\n        \"phone_number\": \"+1234567890\"\n    }\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/users/register/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "register", ""]
+              }
+            }
+          },
+          {
+            "name": "Get JWT Token",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"username\": \"testuser\",\n    \"password\": \"testpass123\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/token/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "token", ""]
+              }
+            }
+          },
+          {
+            "name": "Refresh JWT Token",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/token/refresh/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "token", "refresh", ""]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "User Profile",
+        "item": [
+          {
+            "name": "Get User Profile",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/users/profile/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "profile", ""]
+              }
+            }
+          },
+          {
+            "name": "Update User Profile",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"phone_number\": \"+1987654321\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/users/profile/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "profile", ""]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Addresses",
+        "item": [
+          {
+            "name": "Create Address",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"address_type\": \"home\",\n    \"street_address\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"state\": \"NY\",\n    \"country\": \"USA\",\n    \"postal_code\": \"10001\",\n    \"is_default\": true\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/users/addresses/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "addresses", ""]
+              }
+            }
+          },
+          {
+            "name": "List Addresses",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/users/addresses/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "addresses", ""]
+              }
+            }
+          },
+          {
+            "name": "Set Default Address",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/users/addresses/1/set-default/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "users", "addresses", "1", "set-default", ""]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Categories",
+        "item": [
+          {
+            "name": "Create Category",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"name\": \"Electronics\",\n    \"slug\": \"electronics\",\n    \"description\": \"Electronic devices and accessories\"\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/categories/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "categories", ""]
+              }
+            }
+          },
+          {
+            "name": "Create Subcategory",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"name\": \"Smartphones\",\n    \"slug\": \"smartphones\",\n    \"description\": \"Mobile phones and accessories\",\n    \"parent\": 1\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/categories/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "categories", ""]
+              }
+            }
+          },
+          {
+            "name": "Get Top Level Categories",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/shop/categories/?parent=null",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "categories", ""],
+                "query": [
+                  {
+                    "key": "parent",
+                    "value": "null"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Get Subcategories",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/shop/categories/1/subcategories/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "categories", "1", "subcategories", ""]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Products",
+        "item": [
+          {
+            "name": "Create Product",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"name\": \"iPhone 13\",\n    \"slug\": \"iphone-13\",\n    \"description\": \"Latest iPhone model\",\n    \"price\": \"999.99\",\n    \"stock\": 100,\n    \"category_id\": 2,\n    \"is_available\": true\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/products/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "products", ""]
+              }
+            }
+          },
+          {
+            "name": "List Products",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/shop/products/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "products", ""]
+              }
+            }
+          },
+          {
+            "name": "Get Products by Category",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "{{base_url}}/api/shop/products/?category=smartphones",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "products", ""],
+                "query": [
+                  {
+                    "key": "category",
+                    "value": "smartphones"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Cart",
+        "item": [
+          {
+            "name": "Add Item to Cart",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"product_id\": 1,\n    \"quantity\": 2\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/cart/1/add_item/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "cart", "1", "add_item", ""]
+              }
+            }
+          },
+          {
+            "name": "Remove Item from Cart",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"product_id\": 1\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/cart/1/remove_item/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "cart", "1", "remove_item", ""]
+              }
+            }
+          },
+          {
+            "name": "Get Cart",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/shop/cart/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "cart", ""]
+              }
+            }
+          }
+        ]
+      },
+      {
+        "name": "Orders",
+        "item": [
+          {
+            "name": "Create Order",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n    \"shipping_address\": 1\n}",
+                "options": {
+                  "raw": {
+                    "language": "json"
+                  }
+                }
+              },
+              "url": {
+                "raw": "{{base_url}}/api/shop/orders/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "orders", ""]
+              }
+            }
+          },
+          {
+            "name": "List Orders",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{access_token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{base_url}}/api/shop/orders/",
+                "host": ["{{base_url}}"],
+                "path": ["api", "shop", "orders", ""]
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:8000"
+      },
+      {
+        "key": "access_token",
+        "value": "your_access_token_here"
+      },
+      {
+        "key": "refresh_token",
+        "value": "your_refresh_token_here"
+      }
+    ]
+  }

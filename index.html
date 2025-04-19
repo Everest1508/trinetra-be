@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cartoon Themed Image Upload</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-size: 400% 400%;
+      
+    }
+    
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h2 {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .button {
+      background-color: #ffcc00;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      color: #333;
+      text-transform: uppercase;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      background-color: #ff8000;
+    }
+
+    .canvas-container {
+      border: 4px dashed #f00;
+      border-radius: 10px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    
+
+    .square {
+      fill: rgba(0, 0, 255, 0.2);
+      stroke: blue;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-6">
+
+  <div class="w-full max-w-6xl rounded-xl  p-6">
+    <h2 class="text-center mb-6">Cartoon Themed Image Upload</h2>
+
+    <input 
+      type="file" 
+      accept="image/*" 
+      id="imageUpload" 
+      class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-200 file:text-yellow-700 hover:file:bg-yellow-300 cursor-pointer mb-6"
+    >
+
+    <!-- Canvas container styled with cartoon theme -->
+    <div id="canvasWrapper" class="canvas-container mx-auto w-full sm:w-full md:w-[90%] lg:w-[70%] aspect-square flex justify-center items-center">
+      <div id="canvasContainer" class="w-full h-full flex justify-center items-center">
+        <canvas id="fabricCanvas" class="max-w-full max-h-full"></canvas>
+      </div>
+    </div>
+
+    <button class="button mx-auto mt-6">Click Me</button>
+
+  </div>
+
+  <script>
+    const imageUpload = document.getElementById('imageUpload');
+    const canvasWrapper = document.getElementById('canvasWrapper');
+    const canvasContainer = document.getElementById('canvasContainer');
+    const canvasEl = document.getElementById('fabricCanvas');
+    const canvas = new fabric.Canvas(canvasEl, {
+      preserveObjectStacking: true
+    });
+
+    // Resize canvas to image size and center it inside the container
+    function resizeCanvasToImageSize(img) {
+      const containerWidth = canvasWrapper.offsetWidth;
+      const containerHeight = canvasWrapper.offsetHeight;
+
+      // Calculate scale to fit image inside the container
+      const scale = Math.min(containerWidth / img.width, containerHeight / img.height);
+
+      // Set canvas size based on the scaled image dimensions
+      const canvasWidth = img.width * scale;
+      const canvasHeight = img.height * scale;
+
+      canvas.setWidth(canvasWidth);
+      canvas.setHeight(canvasHeight);
+
+      // Center the canvas inside the container
+      canvasContainer.style.display = 'flex';
+      canvasContainer.style.justifyContent = 'center';
+      canvasContainer.style.alignItems = 'center';
+
+      // Center the image inside the canvas
+      img.scale(scale);
+      img.set({
+        left: (canvasWidth - img.width * scale) / 2,
+        top: (canvasHeight - img.height * scale) / 2,
+        selectable: false,
+        hasControls: false,
+      });
+
+      canvas.add(img);
+    }
+
+    // Handle image upload
+    imageUpload.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        fabric.Image.fromURL(e.target.result, function (img) {
+          canvas.clear(); // Clear previous canvas content
+
+          resizeCanvasToImageSize(img); // Adjust canvas size and center image
+
+          // Add a square to the canvas after image load
+          const squareSize = 100;
+          const square = new fabric.Rect({
+            width: squareSize,
+            height: squareSize,
+            left: (canvas.width - squareSize) / 2,
+            top: (canvas.height - squareSize) / 2,
+            hasControls: true,
+            hasBorders: true,
+            selectable: true,
+            className: 'square',
+          });
+
+          canvas.add(square);
+          canvas.setActiveObject(square);
+          canvas.renderAll();
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Resize canvas on window resize to adjust the image and canvas
+    window.addEventListener('resize', () => {
+      canvas.clear(); // Clear canvas
+      resizeCanvasToImageSize(canvas.getObjects()[0]); // Recalculate the image size
+      canvas.renderAll();
+    });
+  </script>
+
+</body>
+</html>
